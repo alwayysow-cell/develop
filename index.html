@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TapPage — Сайты-визитки и Telegram Mini Apps за 1 день</title>
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --card: #131722;
+      --card-hover: #191f2e;
+      --border: #232a3b;
+      --text: #f3f5f8;
+      --muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-2: #8b5cf6;
+      --green: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(11, 13, 18, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 50;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-outline {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      border-radius: 10px;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 64px 0 48px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 620px;
+      margin: 0 auto 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Sections */
+    section {
+      padding: 44px 0;
+    }
+
+    .section-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-size: 0.98rem;
+    }
+
+    /* Portfolio Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+
+    .card h3 {
+      font-size: 1.18rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    /* Pricing */
+    .price-val {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 10px 0 14px;
+    }
+
+    .price-val small {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .features {
+      list-style: none;
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .features li {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .features li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .card.featured {
+      border-color: var(--accent);
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, var(--card) 100%);
+    }
+
+    /* Order Form */
+    .order-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 32px 24px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    /* Modal Preview */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .phone-frame {
+      background: #11151f;
+      border: 2px solid #2d3748;
+      border-radius: 28px;
+      width: 100%;
+      max-width: 370px;
+      padding: 20px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+      animation: pop 0.2s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.94); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .phone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .close-btn {
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .demo-service {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: #181e2c;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="logo">⚡ Tap<span>Page</span></div>
+      <a href="#order" class="btn btn-primary btn-sm">Заказать сайт</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="badge">● Сделаю черновик до оплаты</div>
+      <h1>Сайты-визитки и Telegram Mini Apps за 1 день</h1>
+      <p>Удобный прайс-лист, портфолио и кнопки записи для мастеров, репетиторов и малого бизнеса. Без ежемесячной платы за хостинг.</p>
+      <div class="hero-actions">
+        <a href="#order" class="btn btn-primary">Получить бесплатный макет</a>
+        <a href="#cases" class="btn btn-outline">Посмотреть примеры</a>
+      </div>
+    </section>
+
+    <section id="cases">
+      <h2 class="section-title">Примеры работ</h2>
+      <p class="section-sub">Нажмите «Открыть превью», чтобы посмотреть, как сайт выглядит на телефоне клиента.</p>
+      <div class="grid">
+        <div class="card">
+          <div>
+            <span class="tag">Бьюти-сфера</span>
+            <h3>Студия маникюра & бровей</h3>
+            <p>Интерактивный прайс с длительностью процедур, адресом студии и записью в WhatsApp / Telegram в 1 клик.</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="openDemo('beauty')">Открыть превью 📱</button>
+        </div>
+
+        <div class="card">
+          <div>
+            <span class="tag">Образование</span>
+            <h3>Репетитор по английскому и ЕГЭ</h3>
+            <p>Визитка с результатами учеников, форматами занятий и формой записи на бесплатный пробный урок.</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="openDemo('tutor')">Открыть превью 📱</button>
+        </div>
+
+        <div class="card">
+          <div>
+            <span class="tag">Автоуслуги</span>
+            <h3>Детейлинг и химчистка авто</h3>
+            <p>Прайс-лист по классам автомобилей, описание этапов работы и кнопка быстрого вызова мастера.</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="openDemo('auto')">Открыть превью 📱</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <h2 class="section-title">Прозрачные цены</h2>
+      <p class="section-sub">Платите один раз за готовый результат. Никаких скрытых подписок.</p>
+      <div class="grid">
+        <div class="card">
+          <div>
+            <span class="tag">Быстрый старт</span>
+            <h3>Сайт-визитка / Прайс</h3>
+            <div class="price-val">1 500 ₽ <small>/ навсегда</small></div>
+            <ul class="features">
+              <li>Адаптация под телефоны и ПК</li>
+              <li>Прайс-лист и описание услуг</li>
+              <li>Кнопки Telegram, WhatsApp, звонок</li>
+              <li>Бесплатный хостинг навсегда</li>
+            </ul>
+          </div>
+          <a href="#order" class="btn btn-outline" onclick="selectTariff('Сайт-визитка (1 500 ₽)')">Выбрать</a>
+        </div>
+
+        <div class="card featured">
+          <div>
+            <span class="tag">Хит продаж</span>
+            <h3>Сайт + Telegram Mini App</h3>
+            <div class="price-val">3 000 ₽ <small>/ навсегда</small></div>
+            <ul class="features">
+              <li>Всё из тарифа «Сайт-визитка»</li>
+              <li>Запуск прямо внутри Telegram-бота</li>
+              <li>Корзина услуг или форма заявки</li>
+              <li>Помощь с текстами и оформлением</li>
+            </ul>
+          </div>
+          <a href="#order" class="btn btn-primary" onclick="selectTariff('Сайт + Mini App (3 000 ₽)')">Выбрать</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="order">
+      <div class="order-box">
+        <h2 class="section-title" style="text-align:center;">Заказать бесплатный черновик</h2>
+        <p class="section-sub" style="text-align:center;">Укажите сферу — сделаю первый набросок и скину ссылку в Telegram.</p>
+        <div class="form-group">
+          <label>Ваше имя</label>
+          <input type="text" id="clientName" placeholder="Например: Алексей">
+        </div>
+        <div class="form-group">
+          <label>Чем вы занимаетесь?</label>
+          <input type="text" id="clientNiche" placeholder="Например: Ремонт телефонов / Маникюр">
+        </div>
+        <div class="form-group">
+          <label>Тариф</label>
+          <select id="clientTariff">
+            <option value="Сайт-визитка (1 500 ₽)">Сайт-визитка / Прайс (1 500 ₽)</option>
+            <option value="Сайт + Mini App (3 000 ₽)">Сайт + Telegram Mini App (3 000 ₽)</option>
+            <option value="Нужна консультация">Пока не определился, нужна консультация</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="width:100%; margin-top:8px;" onclick="sendToTelegram()">Отправить заявку в Telegram ✈️</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© 2026 TapPage Studio — Быстрые сайты для малого бизнеса</div>
+  </footer>
+
+  <!-- Demo Modal -->
+  <div class="modal-backdrop" id="demoModal" onclick="closeDemo(event)">
+    <div class="phone-frame" onclick="event.stopPropagation()">
+      <div class="phone-header">
+        <strong id="demoTitle">Превью</strong>
+        <button class="close-btn" onclick="document.getElementById('demoModal').classList.remove('active')">✕</button>
+      </div>
+      <p id="demoDesc" style="font-size:0.85rem; color:#94a3b8; margin-bottom:14px;"></p>
+      <div id="demoList"></div>
+      <a href="#order" class="btn btn-primary btn-sm" style="width:100%; margin-top:14px;" onclick="document.getElementById('demoModal').classList.remove('active')">Хочу такой же сайт</a>
+    </div>
+  </div>
+
+  <script>
+    const TG_USERNAME = "alwayssowdev";
+
+    const demos = {
+      beauty: {
+        title: "💅 Nails & Brows by Anna",
+        desc: "Студия в центре города • Стерильно 100% • Запись без предоплаты",
+        items: [
+          ["Маникюр + покрытие гель-лак", "1 800 ₽"],
+          ["Наращивание ногтей", "2 500 ₽"],
+          ["Архитектура и окрашивание бровей", "1 200 ₽"],
+          ["Ламинирование ресниц", "1 600 ₽"]
+        ]
+      },
+      tutor: {
+        title: "📚 Английский язык | ЕГЭ и ОГЭ",
+        desc: "Средний балл учеников — 86 • Онлайн в Zoom / интерактивная доска",
+        items: [
+          ["Пробный урок + диагностика (45 мин)", "Бесплатно"],
+          ["Индивидуальное занятие (60 мин)", "1 500 ₽"],
+          ["Абонемент на 8 занятий", "10 800 ₽"],
+          ["Разговорный клуб в мини-группе", "900 ₽"]
+        ]
+      },
+      auto: {
+        title: "🚘 ProDetail — Студия детейлинга",
+        desc: "Защита кузова, полировка и глубокая химчистка с гарантией",
+        items: [
+          ["Детейлинг-химчистка салона", "от 6 500 ₽"],
+          ["Восстановительная полировка кузова", "от 9 000 ₽"],
+          ["Керамическое покрытие (2 слоя)", "14 000 ₽"],
+          ["Оклейка зон риска полиуретаном", "от 12 000 ₽"]
+        ]
+      }
+    };
+
+    function openDemo(key) {
+      const data = demos[key];
+      document.getElementById('demoTitle').textContent = data.title;
+      document.getElementById('demoDesc').textContent = data.desc;
+      const list = document.getElementById('demoList');
+      list.innerHTML = data.items.map(item => `
+        <div class="demo-service">
+          <span>${item[0]}</span>
+          <strong style="color:#10b981;">${item[1]}</strong>
+        </div>
+      `).join('');
+      document.getElementById('demoModal').classList.add('active');
+    }
+
+    function closeDemo(e) {
+      if (e.target.id === 'demoModal') {
+        document.getElementById('demoModal').classList.remove('active');
+      }
+    }
+
+    function selectTariff(val) {
+      document.getElementById('clientTariff').value = val;
+    }
+
+    function sendToTelegram() {
+      const name = document.getElementById('clientName').value.trim() || "Клиент";
+      const niche = document.getElementById('clientNiche').value.trim() || "Не указана";
+      const tariff = document.getElementById('clientTariff').value;
+      const text = `Привет! Хочу заказать сайт.\nИмя: ${name}\nСфера: ${niche}\nТариф: ${tariff}`;
+      window.open(`https://t.me/${TG_USERNAME}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+  </script>
+</body>
+</html>
